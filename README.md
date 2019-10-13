@@ -94,6 +94,7 @@ If default video should be muted or not
 ### My Other Libraries
 ###### Runtime Permission Helper [(<u><i>link</i></u>)](https://github.com/google/ExoPlayer)
 ###### Simple Adapter for RecyclerView [(<u><i>link</i></u>)](https://github.com/pankaj89/PermissionHelper)
+###### LocationHelper [(<u><i>link</i></u>)](https://github.com/pankaj89/LocationHelper)
 ### License
 ```
 Copyright 2017 Pankaj Sharma
