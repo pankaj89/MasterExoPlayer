@@ -1,0 +1,14 @@
+<svg width="55.99999999999999" height="16" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>Layer 1</title>
+
+  <metadata transform="matrix(0.0013214222140402049,0,0,0.0013214222140402049,0,0) " id="svg_211">image/svg+xml</metadata>
+
+  <metadata transform="matrix(0.009642148575085552,0,0,0.009642148575085552,0,0) " id="svg_250">image/svg+xml</metadata>
+  <text stroke="#000" transform="matrix(1,0,0,0.3362194299697876,0,6.5652047004550695) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_257" y="4.823197" x="3.404525" stroke-opacity="null" stroke-width="0" fill="#000000"/>
+  <text xml:space="preserve" text-anchor="start" font-family="'Shadows Into Light', serif" font-size="7" id="svg_260" y="8.137779" x="4.34626" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">MasterExoPlayer</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Oswald, sans-serif" font-size="2" id="svg_261" y="12.735541" x="22.220081" fill-opacity="null" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#000000">{ Play Video Inside RecyclerView }</text>
+ </g>
+</svg>

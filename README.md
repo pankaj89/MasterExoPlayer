@@ -1,4 +1,4 @@
-![alt text](https://github.com/pankaj89/SimpleAdapter/blob/master/banner-readme-header.svg)
+![alt text](https://github.com/pankaj89/MasterExoPlayer/blob/master/master_exo_player_banner.svg)
 
 # MasterExoPlayer for Recyclerview (build with kotlin)
 ####  #3 Line code for playing video inside RecyclerView
