@@ -15,9 +15,21 @@
 - ##### Just attach MasterExoPlayerHelper to recyclerview that's enought, player will play most visible video automatically based on your configuration
 
 ### Setup
-Include the following dependency in your apps build.gradle file.
+Include the following dependency in your build.gradle files.
 ```
+// Project level build.gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
 
+// App level build.gradle
+dependencies {
+    implementation 'com.github.pankaj89:MasterExoPlayer:1.0'
+}
+	
 ```
 # How to use
 
@@ -77,6 +89,7 @@ If default video should be muted or not
 ### Special Thanks to
 ###### Exo Player by Google [(<u><i>link</i></u>)](https://github.com/google/ExoPlayer)
 ###### Simple Adapter for RecyclerView [(<u><i>link</i></u>)](https://github.com/pankaj89/SimpleAdapter)
+###### Coil Image Loading library for Kotlin [(<u><i>link</i></u>)](https://github.com/coil-kt/coil)
 
 ### My Other Libraries
 ###### Runtime Permission Helper [(<u><i>link</i></u>)](https://github.com/google/ExoPlayer)
