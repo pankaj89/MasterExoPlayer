@@ -5,9 +5,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="4dp"
-        android:layout_margin="8dp">
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,35 +19,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp">
 
-                <com.master.exoplayer.MasterExoPlayer
-                    android:id="@+id/frame"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
+                <ImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivVolume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#80FFFFFF"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_volume" />
             </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
+
+            <TextView
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textSize="16sp"
-                android:text="Name" />
+                android:text="Name"
+                android:textSize="16sp" />
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 </layout>
