@@ -16,7 +16,11 @@ class MasterExoPlayer : FrameLayout {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     companion object {
 //        const val ID = 0x11203
@@ -39,13 +43,13 @@ class MasterExoPlayer : FrameLayout {
 
     var playerView: PlayerView? = null
 
-    fun addPlayer(playerView: PlayerView, autoPlay:Boolean) {
+    fun addPlayer(playerView: PlayerView, autoPlay: Boolean, thumbHideDelay: Long = 0) {
         if (this.playerView == null) {
             this.playerView = playerView
             addView(playerView)
             //This autoplay flag is used so we don't hide image view
-            if(autoPlay) {
-                imageView?.animate()?.setDuration(500)?.alpha(0f)
+            if (autoPlay) {
+                imageView?.animate()/*?.setStartDelay(thumbHideDelay)*/?.setDuration(500)?.alpha(0f)
             }
         }
     }

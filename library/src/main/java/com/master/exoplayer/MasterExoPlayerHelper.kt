@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
-import java.lang.RuntimeException
 
 /**
  * @author Pankaj Sharma
@@ -31,6 +30,8 @@ class MasterExoPlayerHelper(
     val playStrategy: Float = PlayStrategy.DEFAULT,
     @MuteStrategy.Values val muteStrategy: Int = MuteStrategy.ALL,
     val defaultMute: Boolean = false,
+    val useController: Boolean = false,
+    val thumbHideDelay: Long = 0,
     private val loop: Int = Int.MAX_VALUE
 ) {
     private val playerView: PlayerView
@@ -41,6 +42,7 @@ class MasterExoPlayerHelper(
     init {
         playerView = PlayerView(mContext)
         playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+        playerView.useController = useController
         exoPlayerHelper = ExoPlayerHelper(
             mContext = mContext,
             playerView = playerView,
@@ -140,15 +142,16 @@ class MasterExoPlayerHelper(
         }
     }
 
-    private val onChildAttachStateChangeListener = object : RecyclerView.OnChildAttachStateChangeListener {
-        override fun onChildViewDetachedFromWindow(view: View) {
-            releasePlayer(view)
-        }
+    private val onChildAttachStateChangeListener =
+        object : RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewDetachedFromWindow(view: View) {
+                releasePlayer(view)
+            }
 
-        override fun onChildViewAttachedToWindow(view: View) {
+            override fun onChildViewAttachedToWindow(view: View) {
 
+            }
         }
-    }
 
     /**
      * Used to attach this helper to recycler view. make call to this after setting LayoutManager to your recycler view
@@ -160,8 +163,7 @@ class MasterExoPlayerHelper(
 
             recyclerView.addOnScrollListener(onScrollListener)
             recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener)
-        }
-        else{
+        } else {
             throw(RuntimeException("call attachToRecyclerView() after setting RecyclerView.layoutManager"))
         }
     }
@@ -171,7 +173,7 @@ class MasterExoPlayerHelper(
         if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
             if (masterExoPlayer.playerView == null) {
                 playerView.getPlayerParent()?.removePlayer()
-                masterExoPlayer.addPlayer(playerView, autoPlay)
+                masterExoPlayer.addPlayer(playerView, autoPlay, thumbHideDelay)
                 if (masterExoPlayer.url?.isNotBlank() == true) {
                     if (muteStrategy == MuteStrategy.ALL) {
                         if (isMute) {
