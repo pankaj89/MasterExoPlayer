@@ -27,7 +27,7 @@ allprojects {
 
 // App level build.gradle
 dependencies {
-    implementation 'com.github.pankaj89:MasterExoPlayer:1.0'
+    implementation 'com.github.pankaj89:MasterExoPlayer:1.2'
 }
 	
 ```
@@ -74,16 +74,24 @@ masterExoPlayerHelper.attachToRecyclerView(recyclerView)
     Visible area from 0 to 1, Which matches to play video, default value = PlayStrategy.DEFAULT i.e 0.75 means 75% area visible to starts play
 ```
 ```
-4. muteStrategy: Values from MuteStratagy.ALL or MuteStratagy.INDIVIDUAL 
+4. muteStrategy : Values from MuteStratagy.ALL or MuteStratagy.INDIVIDUAL 
     Defines whether mute/unmute affects all rows or individual
 ```
 ```
-5. defaultMute:Boolean 
+5. defaultMute : Boolean 
 If default video should be muted or not
 ```
 ```
 6. loop:Int 
     Defines if you want to loop the video, default is unlimited, if set to 1 it will play only 1 time then stoop.
+```
+```
+7. useController : Boolean 
+    Defines if you want use controller for exo player or not. if set true then controller will be visible else hide, default will be false.
+```
+```
+8. thumbHideDelay : Long 
+    Defines duration in millisecond, defines delay before hiding thumbnail image while vide plays.
 ```
 
 ### Special Thanks to
