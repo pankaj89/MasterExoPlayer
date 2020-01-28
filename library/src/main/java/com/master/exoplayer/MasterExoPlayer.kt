@@ -49,7 +49,7 @@ class MasterExoPlayer : FrameLayout {
             addView(playerView)
             //This autoplay flag is used so we don't hide image view
             if (autoPlay) {
-                imageView?.animate()/*?.setStartDelay(thumbHideDelay)*/?.setDuration(500)?.alpha(0f)
+                imageView?.animate()?.setStartDelay(thumbHideDelay)?.setDuration(500)?.alpha(0f)
             }
         }
     }
