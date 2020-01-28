@@ -125,7 +125,7 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
 
     fun makeLifeCycleAware(fragment: Fragment) {
         lifecycle = fragment.lifecycle
-        activity.lifecycle.addObserver(this)
+        fragment.lifecycle.addObserver(this)
     }
 
     /**

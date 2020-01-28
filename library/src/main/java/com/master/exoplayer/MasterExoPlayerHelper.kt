@@ -61,8 +61,8 @@ class MasterExoPlayerHelper(
         exoPlayerHelper.makeLifeCycleAware(activity)
     }
 
-    fun makeLifeCycleAware(activity: Fragment) {
-        exoPlayerHelper.makeLifeCycleAware(activity)
+    fun makeLifeCycleAware(fragment: Fragment) {
+        exoPlayerHelper.makeLifeCycleAware(fragment)
     }
 
     private fun getViewRect(view: View): Rect {
