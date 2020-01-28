@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -119,6 +120,11 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
     var lifecycle: Lifecycle? = null
     fun makeLifeCycleAware(activity: AppCompatActivity) {
         lifecycle = activity.lifecycle
+        activity.lifecycle.addObserver(this)
+    }
+
+    fun makeLifeCycleAware(fragment: Fragment) {
+        lifecycle = fragment.lifecycle
         activity.lifecycle.addObserver(this)
     }
 

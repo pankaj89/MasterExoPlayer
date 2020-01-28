@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.FloatRange
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
@@ -57,6 +58,10 @@ class MasterExoPlayerHelper(
      * Make this helper lifecycler aware so it will stop player when activity goes to background.
      */
     fun makeLifeCycleAware(activity: AppCompatActivity) {
+        exoPlayerHelper.makeLifeCycleAware(activity)
+    }
+
+    fun makeLifeCycleAware(activity: Fragment) {
         exoPlayerHelper.makeLifeCycleAware(activity)
     }
 
