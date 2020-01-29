@@ -72,10 +72,9 @@ class MasterExoPlayer : FrameLayout {
         }
     }
 
-    fun hideThumbImage(thumbHideDelay:Long){
+    fun hideThumbImage(thumbHideDelay: Long) {
         imageView?.animate()?.setStartDelay(thumbHideDelay)?.setDuration(0)?.alpha(0f)
     }
-    init {
-//        id = ID
-    }
+
+    var listener: ExoPlayerHelper.Listener? = null
 }

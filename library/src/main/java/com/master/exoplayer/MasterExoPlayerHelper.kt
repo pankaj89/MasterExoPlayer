@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.master.exoplayer.ExoPlayerHelper.Listener
@@ -56,6 +57,37 @@ class MasterExoPlayerHelper(
             override fun onStart() {
                 super.onStart()
                 playerView.getPlayerParent()?.hideThumbImage(thumbHideDelay)
+                playerView.getPlayerParent()?.listener?.onStart()
+            }
+
+            override fun onBuffering(isBuffering: Boolean) {
+                super.onBuffering(isBuffering)
+                playerView.getPlayerParent()?.listener?.onBuffering(isBuffering)
+            }
+
+            override fun onError(error: ExoPlaybackException?) {
+                super.onError(error)
+                playerView.getPlayerParent()?.listener?.onError(error)
+            }
+
+            override fun onPlayerReady() {
+                super.onPlayerReady()
+                playerView.getPlayerParent()?.listener?.onPlayerReady()
+            }
+
+            override fun onProgress(positionMs: Long) {
+                super.onProgress(positionMs)
+                playerView.getPlayerParent()?.listener?.onProgress(positionMs)
+            }
+
+            override fun onStop() {
+                super.onStop()
+                playerView.getPlayerParent()?.listener?.onStop()
+            }
+
+            override fun onToggleControllerVisible(isVisible: Boolean) {
+                super.onToggleControllerVisible(isVisible)
+                playerView.getPlayerParent()?.listener?.onToggleControllerVisible(isVisible)
             }
         })
         playerView.tag = this

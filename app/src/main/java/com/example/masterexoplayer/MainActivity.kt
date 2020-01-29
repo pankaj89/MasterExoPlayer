@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
+import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
 import com.simpleadapter.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 
                 binding.ivVolume.setOnClickListener {
                     binding.frame.isMute = !binding.frame.isMute
+                }
+
+                binding.frame.listener = object : ExoPlayerHelper.Listener {
+                    override fun onBuffering(isBuffering: Boolean) {
+                        super.onBuffering(isBuffering)
+                    }
                 }
             }
         recyclerView.layoutManager = LinearLayoutManager(this)
