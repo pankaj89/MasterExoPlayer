@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
+import com.master.exoplayer.ExoPlayerHelper.Listener
 
 /**
  * @author Pankaj Sharma
@@ -51,6 +52,12 @@ class MasterExoPlayerHelper(
             loopVideo = loop > 0,
             loopCount = loop
         )
+        exoPlayerHelper.setListener(false, object : Listener {
+            override fun onStart() {
+                super.onStart()
+                playerView.getPlayerParent()?.hideThumbImage(thumbHideDelay)
+            }
+        })
         playerView.tag = this
     }
 
@@ -178,7 +185,7 @@ class MasterExoPlayerHelper(
         if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
             if (masterExoPlayer.playerView == null) {
                 playerView.getPlayerParent()?.removePlayer()
-                masterExoPlayer.addPlayer(playerView, autoPlay, thumbHideDelay)
+                masterExoPlayer.addPlayer(playerView, autoPlay)
                 if (masterExoPlayer.url?.isNotBlank() == true) {
                     if (muteStrategy == MuteStrategy.ALL) {
                         if (isMute) {

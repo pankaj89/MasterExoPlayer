@@ -43,13 +43,13 @@ class MasterExoPlayer : FrameLayout {
 
     var playerView: PlayerView? = null
 
-    fun addPlayer(playerView: PlayerView, autoPlay: Boolean, thumbHideDelay: Long = 0) {
+    fun addPlayer(playerView: PlayerView, autoPlay: Boolean) {
         if (this.playerView == null) {
             this.playerView = playerView
             addView(playerView)
             //This autoplay flag is used so we don't hide image view
             if (autoPlay) {
-                imageView?.animate()?.setStartDelay(thumbHideDelay)?.setDuration(500)?.alpha(0f)
+//                imageView?.animate()?.setDuration(0)?.alpha(0f)
             }
         }
     }
@@ -59,7 +59,7 @@ class MasterExoPlayer : FrameLayout {
             removeView(playerView)
             playerView = null
             imageView?.visibility = View.VISIBLE
-            imageView?.animate()?.setDuration(500)?.alpha(1f)
+            imageView?.animate()?.setDuration(0)?.alpha(1f)
         }
     }
 
@@ -68,10 +68,13 @@ class MasterExoPlayer : FrameLayout {
         if (view is PlayerView) {
             playerView = null
             imageView?.visibility = View.VISIBLE
-            imageView?.animate()?.setDuration(500)?.alpha(1f)
+            imageView?.animate()?.setDuration(0)?.alpha(1f)
         }
     }
 
+    fun hideThumbImage(thumbHideDelay:Long){
+        imageView?.animate()?.setStartDelay(thumbHideDelay)?.setDuration(0)?.alpha(0f)
+    }
     init {
 //        id = ID
     }

@@ -1,7 +1,11 @@
 package com.example.masterexoplayer
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
@@ -9,19 +13,55 @@ import com.master.exoplayer.MasterExoPlayerHelper
 import com.simpleadapter.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class VidePlayFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.activity_main, container, false)
+    }
 
     lateinit var masterExoPlayerHelper: MasterExoPlayerHelper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        masterExoPlayerHelper =
-            MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        masterExoPlayerHelper = MasterExoPlayerHelper(
+            mContext = activity!!,
+            id = R.id.frame,
+            defaultMute = false,
+            useController = true,
+            thumbHideDelay = 10
+        )
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
 
+        parentFragmentManager.addOnBackStackChangedListener {
+            if (parentFragmentManager.fragments.last() == this) {
+                //resume
+                masterExoPlayerHelper.exoPlayerHelper.play()
+            } else {
+                //pause
+                masterExoPlayerHelper.exoPlayerHelper.pause()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("TAG", "Pause")
+    }
+
+    override fun setMenuVisibility(menuVisible: Boolean) {
+        super.setMenuVisibility(menuVisible)
+        Log.i("TAG", "Pause : " + menuVisible)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("TAG", "Stop")
     }
 
     fun setAdapter() {
@@ -36,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     binding.frame.isMute = !binding.frame.isMute
                 }
             }
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(activity!!)
         recyclerView.adapter = adapter
         adapter.addAll(getSampleData())
         adapter.notifyDataSetChanged()
