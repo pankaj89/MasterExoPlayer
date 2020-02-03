@@ -31,8 +31,14 @@ allprojects {
 dependencies {
     implementation 'com.github.pankaj89:MasterExoPlayer:1.5'
 }
-	
+
 ```
+
+#### For SNAPSHOT VERSION
+```
+implementation 'com.github.pankaj89:MasterExoPlayer:master-SNAPSHOT'
+```
+
 # How to use
 
 #### Attach to RecyclerView
