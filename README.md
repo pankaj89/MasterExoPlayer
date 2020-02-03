@@ -1,6 +1,6 @@
 ![alt text](https://github.com/pankaj89/MasterExoPlayer/blob/master/master_exo_player_banner.svg)
 
-# MasterExoPlayer for Recyclerview (build with kotlin)
+# MasterExoPlayer for Recyclerview (build with kotlin) [BETA]
 ####  #3 Line code for playing video inside RecyclerView
 
 [![N|Solid](https://img.shields.io/badge/Android%20Arsenal-Simpler%20Recycler%20View%20Adapter-brightgreen.svg)](https://android-arsenal.com/details/1/5354)
