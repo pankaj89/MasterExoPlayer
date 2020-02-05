@@ -221,12 +221,11 @@ class MasterExoPlayerHelper(
         if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
             if (masterExoPlayer.playerView == null) {
 
-                masterExoPlayer.isMute = isMute
-
                 playerView.getPlayerParent()?.removePlayer()
                 masterExoPlayer.addPlayer(playerView, autoPlay)
                 if (masterExoPlayer.url?.isNotBlank() == true) {
                     if (muteStrategy == MuteStrategy.ALL) {
+                        masterExoPlayer.isMute = isMute
                         if (isMute) {
                             masterExoPlayer.isMute = true
                             exoPlayerHelper.mute()

@@ -11,6 +11,7 @@ import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
 import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
+import com.master.exoplayer.MuteStrategy
 import com.simpleadapter.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,7 +29,7 @@ class VidePlayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = activity!!, id = R.id.frame, useController = true, defaultMute = false)
+        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = activity!!, id = R.id.frame, useController = true, defaultMute = false, muteStrategy = MuteStrategy.ALL)
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
