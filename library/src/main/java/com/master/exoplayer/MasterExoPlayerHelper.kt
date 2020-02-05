@@ -137,6 +137,9 @@ class MasterExoPlayerHelper(
         }
     }
 
+    fun playCurrent(recyclerView:RecyclerView){
+        onScrollListener.onScrollStateChanged(recyclerView = recyclerView, newState =  RecyclerView.SCROLL_STATE_IDLE)
+    }
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
         internal var firstVisibleItem: Int = 0
         internal var lastVisibleItem: Int = 0
@@ -214,26 +217,36 @@ class MasterExoPlayerHelper(
 
     private fun play(view: View) {
         val masterExoPlayer = view.findViewById<View>(id)
+
         if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
             if (masterExoPlayer.playerView == null) {
+
+                masterExoPlayer.isMute = isMute
+
                 playerView.getPlayerParent()?.removePlayer()
                 masterExoPlayer.addPlayer(playerView, autoPlay)
                 if (masterExoPlayer.url?.isNotBlank() == true) {
                     if (muteStrategy == MuteStrategy.ALL) {
                         if (isMute) {
+                            masterExoPlayer.isMute = true
                             exoPlayerHelper.mute()
                         } else {
+                            masterExoPlayer.isMute = false
                             exoPlayerHelper.unMute()
                         }
                     } else if (muteStrategy == MuteStrategy.INDIVIDUAL) {
                         if (masterExoPlayer.isMute) {
+                            masterExoPlayer.isMute = true
                             exoPlayerHelper.mute()
                         } else {
+                            masterExoPlayer.isMute = false
                             exoPlayerHelper.unMute()
                         }
                     }
                     exoPlayerHelper.setUrl(masterExoPlayer.url!!, autoPlay)
                 }
+
+                playerView.getPlayerParent()?.listener?.onPlayerReady()
             }
         }
     }

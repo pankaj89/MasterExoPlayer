@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="#80FFFFFF"
                 android:padding="8dp"
-                app:srcCompat="@drawable/ic_volume" />
+                app:srcCompat="@drawable/ic_volume_on" />
         </FrameLayout>
     </LinearLayout>
 </layout>

@@ -1,6 +1,8 @@
 package com.example.masterexoplayer
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
@@ -17,8 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        masterExoPlayerHelper =
-            MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true)
+        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true, defaultMute = false)
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
@@ -35,11 +36,33 @@ class MainActivity : AppCompatActivity() {
 
                 binding.ivVolume.setOnClickListener {
                     binding.frame.isMute = !binding.frame.isMute
+
+                    if (binding.frame.isMute) {
+                        binding.ivVolume.setImageResource(R.drawable.ic_volume_off)
+                    } else {
+                        binding.ivVolume.setImageResource(R.drawable.ic_volume_on)
+                    }
                 }
 
                 binding.frame.listener = object : ExoPlayerHelper.Listener {
                     override fun onBuffering(isBuffering: Boolean) {
                         super.onBuffering(isBuffering)
+                        Log.i("TAG", isBuffering.toString())
+                    }
+
+                    override fun onPlayerReady() {
+                        super.onPlayerReady()
+                        binding.ivVolume.visibility = View.VISIBLE
+                        if (binding.frame.isMute) {
+                            binding.ivVolume.setImageResource(R.drawable.ic_volume_off)
+                        } else {
+                            binding.ivVolume.setImageResource(R.drawable.ic_volume_on)
+                        }
+                    }
+
+                    override fun onStop() {
+                        super.onStop()
+                        binding.ivVolume.visibility = View.GONE
                     }
                 }
             }

@@ -60,6 +60,7 @@ class MasterExoPlayer : FrameLayout {
             playerView = null
             imageView?.visibility = View.VISIBLE
             imageView?.animate()?.setDuration(0)?.alpha(1f)
+            listener?.onStop()
         }
     }
 

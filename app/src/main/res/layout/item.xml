@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -35,8 +36,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#80FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:padding="8dp"
-                    app:srcCompat="@drawable/ic_volume" />
+                    app:srcCompat="@drawable/ic_volume_on" />
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView

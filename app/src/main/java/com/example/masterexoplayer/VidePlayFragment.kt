@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
+import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
 import com.simpleadapter.SimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,13 +28,7 @@ class VidePlayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        masterExoPlayerHelper = MasterExoPlayerHelper(
-            mContext = activity!!,
-            id = R.id.frame,
-            defaultMute = false,
-            useController = true,
-            thumbHideDelay = 10
-        )
+        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = activity!!, id = R.id.frame, useController = true, defaultMute = false)
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
@@ -74,6 +69,34 @@ class VidePlayFragment : Fragment() {
 
                 binding.ivVolume.setOnClickListener {
                     binding.frame.isMute = !binding.frame.isMute
+
+                    if (binding.frame.isMute) {
+                        binding.ivVolume.setImageResource(R.drawable.ic_volume_off)
+                    } else {
+                        binding.ivVolume.setImageResource(R.drawable.ic_volume_on)
+                    }
+                }
+
+                binding.frame.listener = object : ExoPlayerHelper.Listener {
+                    override fun onBuffering(isBuffering: Boolean) {
+                        super.onBuffering(isBuffering)
+                        Log.i("TAG", isBuffering.toString())
+                    }
+
+                    override fun onPlayerReady() {
+                        super.onPlayerReady()
+                        binding.ivVolume.visibility = View.VISIBLE
+                        if (binding.frame.isMute) {
+                            binding.ivVolume.setImageResource(R.drawable.ic_volume_off)
+                        } else {
+                            binding.ivVolume.setImageResource(R.drawable.ic_volume_on)
+                        }
+                    }
+
+                    override fun onStop() {
+                        super.onStop()
+                        binding.ivVolume.visibility = View.GONE
+                    }
                 }
             }
         recyclerView.layoutManager = LinearLayoutManager(activity!!)

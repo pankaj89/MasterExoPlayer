@@ -73,11 +73,11 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
                     CacheDataSource.FLAG_BLOCK_ON_CACHE or CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR,
                     object : CacheDataSource.EventListener {
                         override fun onCacheIgnored(reason: Int) {
-                            Log.d("ZAQ", "onCacheIgnored")
+                            //Log.d("Exo", "onCacheIgnored")
                         }
 
                         override fun onCachedBytesRead(cacheSizeBytes: Long, cachedBytesRead: Long) {
-                            Log.d("ZAQ", "onCachedBytesRead , cacheSizeBytes: $cacheSizeBytes   cachedBytesRead: $cachedBytesRead")
+                            //Log.d("Exo", "onCachedBytesRead , cacheSizeBytes: $cacheSizeBytes   cachedBytesRead: $cachedBytesRead")
                         }
                     })
             }
@@ -285,6 +285,11 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
         mPlayer.playWhenReady = false
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    protected fun onResume(){
+        mPlayer.playWhenReady = true
+    }
+
     //LISTENERS
 
     /**
@@ -300,7 +305,7 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
 
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
 
-                Log.i("EXO", "onPlayerStateChanged $playWhenReady with ${url}")
+                //Log.i("EXO", "onPlayerStateChanged $playWhenReady with ${url}")
                 if (isPreparing && playbackState == Player.STATE_READY) {
                     isPreparing = false
                     listener.onPlayerReady()
@@ -330,23 +335,6 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
                         listener.onStop()
                     }
                 }
-                /*if (playbackState == Player.STATE_BUFFERING) {
-                    listener.onBuffering(true)
-                } else if (playbackState == Player.STATE_IDLE) {
-                    listener.onError(null)
-                } else {
-                    listener.onBuffering(false)
-                }
-
-                if (playbackState == Player.STATE_IDLE) {
-                    if (playWhenReady) {
-                        startTimer()
-                        listener.onStart()
-                    } else {
-                        stopTimer()
-                        listener.onStop()
-                    }
-                }*/
             }
         })
 
@@ -372,5 +360,6 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
         fun onError(error: ExoPlaybackException?) {}
         fun onBuffering(isBuffering: Boolean) {}
         fun onToggleControllerVisible(isVisible: Boolean) {}
+
     }
 }
