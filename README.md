@@ -36,7 +36,7 @@ dependencies {
 
 #### For SNAPSHOT VERSION
 ```
-implementation 'com.github.pankaj89:MasterExoPlayer:master-SNAPSHOT'
+ implementation 'com.github.pankaj89:MasterExoPlayer:-SNAPSHOT'
 ```
 
 # How to use
