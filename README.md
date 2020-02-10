@@ -29,7 +29,7 @@ allprojects {
 
 // App level build.gradle
 dependencies {
-    implementation 'com.github.pankaj89:MasterExoPlayer:1.5'
+    implementation 'com.github.pankaj89:MasterExoPlayer:1.4.2'
 }
 
 ```
@@ -99,8 +99,39 @@ If default video should be muted or not
 ```
 ```
 8. thumbHideDelay : Long 
-    Defines duration in millisecond, defines delay before hiding thumbnail image while vide plays.
+    Defines duration in millisecond, defines delay before hiding thumbnail image while video plays.
 ```
+
+#### Listen for buffering or not
+```
+//Inside onBindViewHolder of your RecyclerViewAdapter
+
+binding.masterExoPlayer.listener = object : ExoPlayerHelper.Listener {
+
+    //Listen for buffering listener
+    override fun onBuffering(isBuffering: Boolean) {
+        super.onBuffering(isBuffering)
+        Log.i("TAG", isBuffering.toString())
+    }
+
+    //Update mute/unmute icon on player ready callback.
+    
+    override fun onPlayerReady() {
+        super.onPlayerReady()
+        binding.ivVolume.visibility = View.VISIBLE
+        if (binding.frame.isMute) {
+            binding.ivVolume.setImageResource(R.drawable.ic_volume_off)
+        } else {
+            binding.ivVolume.setImageResource(R.drawable.ic_volume_on)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.ivVolume.visibility = View.GONE
+    }
+}
+``` 
 
 ### Special Thanks to
 ###### Exo Player by Google [(<u><i>link</i></u>)](https://github.com/google/ExoPlayer)
@@ -111,6 +142,7 @@ If default video should be muted or not
 ###### Runtime Permission Helper [(<u><i>link</i></u>)](https://github.com/google/ExoPlayer)
 ###### Simple Adapter for RecyclerView [(<u><i>link</i></u>)](https://github.com/pankaj89/PermissionHelper)
 ###### LocationHelper [(<u><i>link</i></u>)](https://github.com/pankaj89/LocationHelper)
+###### ADB Input (Android Studio Plugin) [(<u><i>link</i></u>)](https://plugins.jetbrains.com/plugin/13758-adb-input/versions)
 ### License
 ```
 Copyright 2017 Pankaj Sharma
