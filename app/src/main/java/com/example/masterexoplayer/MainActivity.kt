@@ -1,6 +1,7 @@
 package com.example.masterexoplayer
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -70,6 +71,13 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         adapter.addAll(getSampleData())
         adapter.notifyDataSetChanged()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            Handler().postDelayed({
+                adapter.notifyDataSetChanged()
+                swipeRefreshLayout.isRefreshing = false
+            },5000)
+        }
     }
 
     fun getSampleData(): ArrayList<Model> {

@@ -137,9 +137,13 @@ class MasterExoPlayerHelper(
         }
     }
 
-    fun playCurrent(recyclerView:RecyclerView){
-        onScrollListener.onScrollStateChanged(recyclerView = recyclerView, newState =  RecyclerView.SCROLL_STATE_IDLE)
+    fun playCurrent(recyclerView: RecyclerView) {
+        onScrollListener.onScrollStateChanged(
+            recyclerView = recyclerView,
+            newState = RecyclerView.SCROLL_STATE_IDLE
+        )
     }
+
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
         internal var firstVisibleItem: Int = 0
         internal var lastVisibleItem: Int = 0
@@ -189,16 +193,33 @@ class MasterExoPlayerHelper(
         }
     }
 
+    private val childAttachHandler = android.os.Handler()
+    private val childAttachRunnable = object : Runnable {
+        var _attachedRecyclerView: RecyclerView? = null
+        override fun run() {
+            if (_attachedRecyclerView != null)
+                onScrollListener.onScrollStateChanged(
+                    recyclerView = _attachedRecyclerView!!,
+                    newState = RecyclerView.SCROLL_STATE_IDLE
+                )
+        }
+    }
+
     private val onChildAttachStateChangeListener =
         object : RecyclerView.OnChildAttachStateChangeListener {
+            var attachedRecyclerView: RecyclerView? = null
             override fun onChildViewDetachedFromWindow(view: View) {
                 releasePlayer(view)
             }
 
             override fun onChildViewAttachedToWindow(view: View) {
-
+                childAttachHandler.removeCallbacks(childAttachRunnable)
+                childAttachHandler.postDelayed(childAttachRunnable.apply {
+                    _attachedRecyclerView = attachedRecyclerView
+                }, 500)
             }
         }
+
 
     /**
      * Used to attach this helper to recycler view. make call to this after setting LayoutManager to your recycler view
@@ -209,7 +230,9 @@ class MasterExoPlayerHelper(
             recyclerView.removeOnChildAttachStateChangeListener(onChildAttachStateChangeListener)
 
             recyclerView.addOnScrollListener(onScrollListener)
-            recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener)
+            recyclerView.addOnChildAttachStateChangeListener(onChildAttachStateChangeListener.apply {
+                attachedRecyclerView = recyclerView
+            })
         } else {
             throw(RuntimeException("call attachToRecyclerView() after setting RecyclerView.layoutManager"))
         }
