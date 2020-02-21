@@ -290,4 +290,7 @@ class MasterExoPlayerHelper(
         return null
     }
 
+    public fun getPlayerView():PlayerView{
+        return playerView
+    }
 }

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
 import com.simpleadapter.SimpleAdapter
@@ -21,10 +22,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true, defaultMute = false)
+        masterExoPlayerHelper.getPlayerView().resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
-
     }
 
     fun setAdapter() {
