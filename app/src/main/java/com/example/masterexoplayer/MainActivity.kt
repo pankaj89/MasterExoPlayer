@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true, defaultMute = false)
-        masterExoPlayerHelper.getPlayerView().resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+        masterExoPlayerHelper.getPlayerView().apply {
+            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+        }
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)

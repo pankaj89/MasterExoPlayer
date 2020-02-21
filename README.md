@@ -29,15 +29,18 @@ allprojects {
 
 // App level build.gradle
 dependencies {
-    implementation 'com.github.pankaj89:MasterExoPlayer:1.4.3'
+    implementation 'com.github.pankaj89:MasterExoPlayer:1.4.4'
 }
 
 ```
 
-#### For SNAPSHOT VERSION
-```
- implementation 'com.github.pankaj89:MasterExoPlayer:-SNAPSHOT'
-```
+
+#### Whats New
+
+- Added method to return playerview from MasterExoPlayerHelper, now we can customize player using getPlayer() on MasterExoPlayerHelper
+Example:
+masterExoPlayerHelper.getPlayerView().resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+
 
 # How to use
 
@@ -64,6 +67,10 @@ val masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.mas
 masterExoPlayerHelper.makeLifeCycleAware(this)
 masterExoPlayerHelper.attachToRecyclerView(recyclerView)
 
+//Used to customize attributes
+masterExoPlayerHelper.getPlayerView().apply {
+    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM   
+}
 ```
 
 # Configuration
