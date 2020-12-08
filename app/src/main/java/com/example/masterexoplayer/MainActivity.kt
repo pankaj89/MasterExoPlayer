@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         adapter.addAll(getSampleData())
         adapter.notifyDataSetChanged()
-
+MasterExoPlayerHelper
         swipeRefreshLayout.setOnRefreshListener {
             Handler().postDelayed({
                 adapter.notifyDataSetChanged()

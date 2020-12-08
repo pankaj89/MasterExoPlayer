@@ -29,7 +29,7 @@ allprojects {
 
 // App level build.gradle
 dependencies {
-    implementation 'com.github.pankaj89:MasterExoPlayer:1.4.4'
+    implementation 'com.github.pankaj89:MasterExoPlayer:1.4.5'
 }
 
 ```
