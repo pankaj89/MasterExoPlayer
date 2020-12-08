@@ -187,7 +187,7 @@ class MasterExoPlayerHelper(
             lastVisibleItem = layoutManager?.findLastVisibleItemPosition() ?: 0;
             visibleCount = (lastVisibleItem - firstVisibleItem) + 1;
 
-            if (dx == 0 && dy == 0) {
+            if (dx == 0 && dy == 0 && recyclerView.childCount > 0) {
                 play(recyclerView.getChildAt(0))
             }
         }
@@ -290,7 +290,7 @@ class MasterExoPlayerHelper(
         return null
     }
 
-    public fun getPlayerView():PlayerView{
+    public fun getPlayerView(): PlayerView {
         return playerView
     }
 }
