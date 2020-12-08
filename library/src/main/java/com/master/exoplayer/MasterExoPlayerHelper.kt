@@ -28,35 +28,26 @@ import com.master.exoplayer.ExoPlayerHelper.Listener
 class MasterExoPlayerHelper(
     mContext: Context,
     private val id: Int,
-    private val autoPlay: Boolean = true,
-    @FloatRange(from = 0.0, to = 1.0)
-    val playStrategy: Float = PlayStrategy.DEFAULT,
-    @MuteStrategy.Values val muteStrategy: Int = MuteStrategy.ALL,
-    val defaultMute: Boolean = false,
-    val useController: Boolean = false,
-    val thumbHideDelay: Long = 0,
-    private val loop: Int = Int.MAX_VALUE
+    private val configs: Configs = Configs()
 ) {
     private val playerView: PlayerView
     val exoPlayerHelper: ExoPlayerHelper
 
-    var isMute = defaultMute
+    var isMute = configs.defaultMute
 
     init {
         playerView = PlayerView(mContext)
         playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-        playerView.useController = useController
+        playerView.useController = configs.useController
         exoPlayerHelper = ExoPlayerHelper(
             mContext = mContext,
             playerView = playerView,
-            enableCache = false,
-            loopVideo = loop > 0,
-            loopCount = loop
+            configs = configs
         )
         exoPlayerHelper.setListener(false, object : Listener {
             override fun onStart() {
                 super.onStart()
-                playerView.getPlayerParent()?.hideThumbImage(thumbHideDelay)
+                playerView.getPlayerParent()?.hideThumbImage(configs.thumbHideDelay)
                 playerView.getPlayerParent()?.listener?.onStart()
             }
 
@@ -156,7 +147,7 @@ class MasterExoPlayerHelper(
 
                     for (i in 0 until visibleCount) {
                         val view = recyclerView.getChildAt(i) ?: continue
-                        if (visibleAreaOffset(view) >= playStrategy) {
+                        if (visibleAreaOffset(view) >= configs.playStrategy) {
                             val masterExoPlayer = view.findViewById<View>(id)
                             if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
                                 play(view)
@@ -166,15 +157,6 @@ class MasterExoPlayerHelper(
                             }
                             break
                         }
-
-                        /*val masterExoPlayer = view.findViewById<View>(id)
-                        if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
-
-                            if (visibleAreaOffset(masterExoPlayer, view) >= 0.75) {
-                                play(view)
-                                break
-                            }
-                        }*/
                     }
                 }
             }
@@ -183,11 +165,11 @@ class MasterExoPlayerHelper(
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            firstVisibleItem = layoutManager?.findFirstVisibleItemPosition() ?: 0;
-            lastVisibleItem = layoutManager?.findLastVisibleItemPosition() ?: 0;
+            firstVisibleItem = layoutManager.findFirstVisibleItemPosition() ?: 0;
+            lastVisibleItem = layoutManager.findLastVisibleItemPosition() ?: 0;
             visibleCount = (lastVisibleItem - firstVisibleItem) + 1;
 
-            if (dx == 0 && dy == 0) {
+            if (dx == 0 && dy == 0 && recyclerView.childCount > 0) {
                 play(recyclerView.getChildAt(0))
             }
         }
@@ -245,9 +227,9 @@ class MasterExoPlayerHelper(
             if (masterExoPlayer.playerView == null) {
 
                 playerView.getPlayerParent()?.removePlayer()
-                masterExoPlayer.addPlayer(playerView, autoPlay)
+                masterExoPlayer.addPlayer(playerView, configs.autoPlay)
                 if (masterExoPlayer.url?.isNotBlank() == true) {
-                    if (muteStrategy == MuteStrategy.ALL) {
+                    if (configs.muteStrategy == MuteStrategy.ALL) {
                         masterExoPlayer.isMute = isMute
                         if (isMute) {
                             masterExoPlayer.isMute = true
@@ -256,7 +238,7 @@ class MasterExoPlayerHelper(
                             masterExoPlayer.isMute = false
                             exoPlayerHelper.unMute()
                         }
-                    } else if (muteStrategy == MuteStrategy.INDIVIDUAL) {
+                    } else if (configs.muteStrategy == MuteStrategy.INDIVIDUAL) {
                         if (masterExoPlayer.isMute) {
                             masterExoPlayer.isMute = true
                             exoPlayerHelper.mute()
@@ -265,9 +247,8 @@ class MasterExoPlayerHelper(
                             exoPlayerHelper.unMute()
                         }
                     }
-                    exoPlayerHelper.setUrl(masterExoPlayer.url!!, autoPlay)
+                    exoPlayerHelper.setUrl(masterExoPlayer.url!!, configs.autoPlay)
                 }
-
                 playerView.getPlayerParent()?.listener?.onPlayerReady()
             }
         }
@@ -290,7 +271,7 @@ class MasterExoPlayerHelper(
         return null
     }
 
-    public fun getPlayerView():PlayerView{
+    public fun getPlayerView(): PlayerView {
         return playerView
     }
 }

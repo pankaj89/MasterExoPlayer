@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
+import com.master.exoplayer.Configs
 import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
 import com.master.exoplayer.MuteStrategy
@@ -29,7 +30,11 @@ class VidePlayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = activity!!, id = R.id.frame, useController = true, defaultMute = false, muteStrategy = MuteStrategy.ALL)
+        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = activity!!, id = R.id.frame, configs = Configs().apply {
+            useController = true
+            defaultMute = false
+            muteStrategy = MuteStrategy.ALL
+        })
         masterExoPlayerHelper.makeLifeCycleAware(this)
         setAdapter()
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)

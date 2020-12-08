@@ -22,16 +22,16 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.upstream.cache.*
-import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
 import java.io.File
 
-class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView, enableCache: Boolean = true, private val loopVideo: Boolean = false, val loopCount: Int = Integer.MAX_VALUE) :
-    LifecycleObserver {
+class ExoPlayerHelper(
+    val mContext: Context,
+    private val playerView: PlayerView,
+    private val configs: Configs = Configs()
+) : LifecycleObserver {
 
     private var mPlayer: SimpleExoPlayer
-    var cacheSizeInMb: Long = 500
-
     var progressRequired: Boolean = false
 
     companion object {
@@ -42,24 +42,32 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
     }
 
     init {
-        if (mCacheEnabled != enableCache || mDataSourceFactory == null) {
-
+        if (mCacheEnabled != configs.enableCache || mDataSourceFactory == null) {
 
             mDataSourceFactory = null
 
             val bandwidthMeter = DefaultBandwidthMeter()
-            mDataSourceFactory = DefaultDataSourceFactory(mContext, Util.getUserAgent(mContext, mContext.getString(R.string.app_name)), bandwidthMeter)
+            mDataSourceFactory = DefaultDataSourceFactory(
+                mContext,
+                Util.getUserAgent(mContext, mContext.getString(R.string.app_name)),
+                bandwidthMeter
+            )
 
             // LoadControl that controls when the MediaSource buffers more media, and how much media is buffered.
             // LoadControl is injected when the player is created.
             val builder = DefaultLoadControl.Builder()
             builder.setAllocator(DefaultAllocator(true, 2 * 1024 * 1024))
-            builder.setBufferDurationsMs(5000, 5000, 5000, 5000)
+            builder.setBufferDurationsMs(
+                configs.minBufferMs,
+                configs.maxBufferMs,
+                configs.bufferForPlaybackMs,
+                configs.bufferForPlaybackAfterRebufferMs
+            )
             builder.setPrioritizeTimeOverSizeThresholds(true)
             mLoadControl = builder.createDefaultLoadControl()
 
-            if (enableCache) {
-                val evictor = LeastRecentlyUsedCacheEvictor(cacheSizeInMb * 1024 * 1024)
+            if (configs.enableCache) {
+                val evictor = LeastRecentlyUsedCacheEvictor(configs.cacheSizeInMb * 1024 * 1024)
                 val file = File(mContext.getCacheDir(), "media")
 
                 if (simpleCache == null)
@@ -76,13 +84,16 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
                             //Log.d("Exo", "onCacheIgnored")
                         }
 
-                        override fun onCachedBytesRead(cacheSizeBytes: Long, cachedBytesRead: Long) {
+                        override fun onCachedBytesRead(
+                            cacheSizeBytes: Long,
+                            cachedBytesRead: Long
+                        ) {
                             //Log.d("Exo", "onCachedBytesRead , cacheSizeBytes: $cacheSizeBytes   cachedBytesRead: $cachedBytesRead")
                         }
                     })
             }
         }
-        mCacheEnabled = enableCache
+        mCacheEnabled = configs.enableCache
 
         mPlayer = ExoPlayerFactory.newSimpleInstance(
             mContext,
@@ -150,7 +161,8 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
             C.TYPE_SS -> return SsMediaSource.Factory(mDataSourceFactory).createMediaSource(uri)
             C.TYPE_DASH -> return DashMediaSource.Factory(mDataSourceFactory).createMediaSource(uri)
             C.TYPE_HLS -> return HlsMediaSource.Factory(mDataSourceFactory).createMediaSource(uri)
-            C.TYPE_OTHER -> return ExtractorMediaSource.Factory(mDataSourceFactory).createMediaSource(uri)
+            C.TYPE_OTHER -> return ExtractorMediaSource.Factory(mDataSourceFactory)
+                .createMediaSource(uri)
             else -> {
                 throw IllegalStateException("Unsupported type: $type") as Throwable
             }
@@ -161,8 +173,8 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
      * Looping if user set if looping necessary
      */
     private fun loopIfNecessary() {
-        if (loopVideo) {
-            mediaSource = LoopingMediaSource(mediaSource, loopCount)
+        if (configs.loopVideo) {
+            mediaSource = LoopingMediaSource(mediaSource, configs.loopCount)
         }
     }
 
@@ -286,7 +298,7 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    protected fun onResume(){
+    protected fun onResume() {
         mPlayer.playWhenReady = true
     }
 

@@ -22,7 +22,6 @@ class MainActivityNested : AppCompatActivity() {
         masterExoPlayerHelper.attachToRecyclerView(recyclerView)
     }
 
-
     fun setAdapter() {
         val adapter = PostAdapter(getSampleData(), masterExoPlayerHelper)
         recyclerView.layoutManager = LinearLayoutManager(this)

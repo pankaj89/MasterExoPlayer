@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
 import com.example.masterexoplayer.databinding.ItemBinding
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+import com.master.exoplayer.Configs
 import com.master.exoplayer.ExoPlayerHelper
 import com.master.exoplayer.MasterExoPlayerHelper
 import com.simpleadapter.SimpleAdapter
@@ -21,7 +22,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.frame, useController = true, defaultMute = false)
+        masterExoPlayerHelper = MasterExoPlayerHelper(mContext = this, id = R.id.frame, configs = Configs().apply {
+            useController = true
+            defaultMute = false
+        })
         masterExoPlayerHelper.getPlayerView().apply {
             resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
         }
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             Handler().postDelayed({
                 adapter.notifyDataSetChanged()
                 swipeRefreshLayout.isRefreshing = false
-            },5000)
+            }, 5000)
         }
     }
 
