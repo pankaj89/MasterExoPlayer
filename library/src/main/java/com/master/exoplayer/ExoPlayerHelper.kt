@@ -206,14 +206,14 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
     private fun startTimer() {
         if (progressRequired) {
             if (durationRunnable != null)
-                durationHandler.postDelayed(durationRunnable, 17)
+                durationHandler.postDelayed(durationRunnable!!, 17)
         }
     }
 
     private fun stopTimer() {
         if (progressRequired) {
             if (durationRunnable != null)
-                durationHandler.removeCallbacks(durationRunnable)
+                durationHandler.removeCallbacks(durationRunnable!!)
         }
     }
 
@@ -346,7 +346,9 @@ class ExoPlayerHelper(val mContext: Context, private val playerView: PlayerView,
             durationRunnable = Runnable {
                 listener.onProgress(mPlayer.currentPosition)
                 if (mPlayer.playWhenReady) {
-                    durationHandler.postDelayed(durationRunnable, 500)
+                    if(durationRunnable != null) {
+                        durationHandler.postDelayed(durationRunnable!!, 500)
+                    }
                 }
             }
         }
