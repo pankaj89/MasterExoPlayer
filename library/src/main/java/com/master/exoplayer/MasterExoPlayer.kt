@@ -46,6 +46,7 @@ class MasterExoPlayer : FrameLayout {
     fun addPlayer(playerView: PlayerView, autoPlay: Boolean) {
         if (this.playerView == null) {
             this.playerView = playerView
+            playerView.useController = false
             addView(playerView)
             //This autoplay flag is used so we don't hide image view
             if (autoPlay) {
