@@ -35,23 +35,20 @@ class MasterExoPlayerHelper(
     val defaultMute: Boolean = false,
     val useController: Boolean = false,
     val thumbHideDelay: Long = 0,
-    private val loop: Int = Int.MAX_VALUE
+    private val loop: Boolean = false
 ) {
-    private val playerView: PlayerView
+    private val playerView: PlayerView = PlayerView(mContext)
     val exoPlayerHelper: ExoPlayerHelper
 
     var isMute = defaultMute
 
     init {
-        playerView = PlayerView(mContext)
         playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
         playerView.useController = useController
         exoPlayerHelper = ExoPlayerHelper(
             mContext = mContext,
             playerView = playerView,
-            enableCache = false,
-            loopVideo = loop > 0,
-            loopCount = loop
+            loopVideo = loop
         )
         exoPlayerHelper.setListener(false, object : Listener {
             override fun onStart() {
@@ -115,12 +112,12 @@ class MasterExoPlayerHelper(
         val videoRect = getViewRect(player)
         val parentRect = getViewRect(parent)
 
-        if ((parentRect.contains(videoRect) || parentRect.intersect(videoRect))) {
+        return if ((parentRect.contains(videoRect) || parentRect.intersect(videoRect))) {
             val visibleArea = (videoRect.height() * videoRect.width()).toFloat()
-            val viewArea = player.getWidth() * player.getHeight()
-            return if (viewArea <= 0f) 1f else visibleArea / viewArea
+            val viewArea = player.width * player.height
+            if (viewArea <= 0f) 1f else visibleArea / viewArea
         } else {
-            return 0f
+            0f
         }
     }
 
@@ -128,12 +125,12 @@ class MasterExoPlayerHelper(
         val videoRect = getViewRect(parent)
         val parentRect = getViewRect(parent)
 
-        if ((parentRect.contains(videoRect) || parentRect.intersect(videoRect))) {
+        return if ((parentRect.contains(videoRect) || parentRect.intersect(videoRect))) {
             val visibleArea = (videoRect.height() * videoRect.width()).toFloat()
             val viewArea = parent.getWidth() * parent.getHeight()
-            return if (viewArea <= 0f) 1f else visibleArea / viewArea
+            if (viewArea <= 0f) 1f else visibleArea / viewArea
         } else {
-            return 0f
+            0f
         }
     }
 
@@ -167,14 +164,6 @@ class MasterExoPlayerHelper(
                             break
                         }
 
-                        /*val masterExoPlayer = view.findViewById<View>(id)
-                        if (masterExoPlayer != null && masterExoPlayer is MasterExoPlayer) {
-
-                            if (visibleAreaOffset(masterExoPlayer, view) >= 0.75) {
-                                play(view)
-                                break
-                            }
-                        }*/
                     }
                 }
             }
